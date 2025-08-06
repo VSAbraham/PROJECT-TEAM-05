@@ -21,7 +21,6 @@ public class BrowserFactory {
 	           driver = new EdgeDriver();
 	       } else {
 	           System.out.println("Invalid browser name.");
-//	           sc.close();
 	           return;
 	       }
 
