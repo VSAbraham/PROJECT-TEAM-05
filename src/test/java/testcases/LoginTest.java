@@ -33,22 +33,22 @@ public class LoginTest {
     
     @Test
     public void runLoginTestsFromExcel() throws IOException {
-        String excelFilePath = "C:\\Users\\vs.abraham\\Downloads\\login_test_data.xlsx";
+        String excelFilePath = "Excel/login_test_data.xlsx";
         FileInputStream fis = new FileInputStream(excelFilePath);
  
         try (Workbook workbook = new XSSFWorkbook(fis)) {
             Sheet sheet = workbook.getSheetAt(0);
- 
+
 
 		for (int rowIndex = 1; rowIndex <= sheet.getLastRowNum(); rowIndex++)
 		 {
                 Row row = sheet.getRow(rowIndex);
                 if (row == null) continue;
- 
+
                 String username = row.getCell(0).getStringCellValue();
                 String password = row.getCell(1).getStringCellValue();
                 String expectedResult = row.getCell(2).getStringCellValue();
- 
+
                 testLogin(username, password, expectedResult);
             }
         }
@@ -61,7 +61,7 @@ public class LoginTest {
         loginpage.clickLoginButton();
  
         boolean loginSuccess = driver.getCurrentUrl().contains("inventory.html");
- 
+
         if (expectedResult.equalsIgnoreCase("success")) {
             assert loginSuccess : "Expected success but login failed for user: " + username;
         } else {

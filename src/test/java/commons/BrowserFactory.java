@@ -9,15 +9,15 @@ import org.testng.annotations.Test;
 
  
 public class BrowserFactory {
-		public WebDriver driver;
+		public static WebDriver driver;
 	   @Test
 	   public void launchBrowser(String browser) {
 	       if (browser.equalsIgnoreCase("chrome")) {
-	           System.setProperty("webdriver.chrome.driver", "C:\\Users\\vs.abraham\\Downloads\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe");
+	           System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
 	           driver = new ChromeDriver();
 	       
 	       } else if (browser.equalsIgnoreCase("edge")) {
-	           System.setProperty("webdriver.edge.driver","C:\\Users\\vs.abraham\\Downloads\\edgedriver_win64\\msedgedriver.exe");
+	           System.setProperty("webdriver.edge.driver","drivers/msedgedriver.exe");
 	           driver = new EdgeDriver();
 	       } else {
 	           System.out.println("Invalid browser name.");
