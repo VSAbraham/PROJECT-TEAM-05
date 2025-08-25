@@ -32,7 +32,7 @@ public class loginPageUsingExcel {
 
     	extent = report.getReportInstance();
         Browser_factory browserFactory = new Browser_factory();
-        driver = browserFactory.launchBrowser("chrome"); // or "edge"
+        driver = browserFactory.launchBrowser("edge"); // or "edge"
         loginPage = new login_page(driver);
         url = driver.getCurrentUrl();
     }
@@ -40,7 +40,7 @@ public class loginPageUsingExcel {
     @Test
 
     public void testLogin() throws IOException, InterruptedException {
-        String excelFilePath = "C:\\Users\\gudla.sanja\\eclipse-workspace\\Project\\test-data\\testcases (2).xlsx";
+        String excelFilePath = "excelsheet/testcases (2).xlsx";
         FileInputStream fis = new FileInputStream(excelFilePath);
         try (Workbook workbook = new XSSFWorkbook(fis)) {
             Sheet sheet = workbook.getSheetAt(0);
