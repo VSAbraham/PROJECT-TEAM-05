@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
+  <parameter name="browser" value="edge"/>
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="testcases.LoginTest">
+      <class name="testcases.CheckOutTest">
         <methods>
-          <include name="setUp"/>
-          <include name="runLoginTestsFromExcel"/>
+          <include name="setup"/>
+          <include name="testLoginCartAndCheckout"/>
+          <include name="tearDown"/>
         </methods>
-      </class> <!-- testcases.LoginTest -->
+      </class> <!-- testcases.CheckOutTest -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->
