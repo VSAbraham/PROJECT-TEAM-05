@@ -26,7 +26,7 @@ public class BaseTest {
 
     @BeforeSuite(alwaysRun = true)
     public void setupReport() {
-        extent = report.getReportInstance();
+        extent = ExtentReport.getReportInstance();
     }
 
     @BeforeMethod(alwaysRun = true)

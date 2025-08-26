@@ -13,7 +13,7 @@ import java.util.Date;
 
 public class Screenshot {
 
-    public static void captureScreenshot(WebDriver driver, String fileNamePrefix) {
+    public static String captureScreenshot(WebDriver driver, String fileNamePrefix) {
 
         File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 
@@ -36,6 +36,7 @@ public class Screenshot {
 
         }
 
+        return timestamp;
     }
 
 }

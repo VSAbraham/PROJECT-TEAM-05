@@ -1,0 +1,59 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="Product Test Suite">
+
+    <!-- Test run for standard_user -->
+    <test name="Standard User">
+        <parameter name="username" value="standard_user"/>
+        <parameter name="password" value="secret_sauce"/>
+        <classes>
+            <class name="testcases.ProductTest"/>
+        </classes>
+    </test>
+
+    <test name="Locked User">
+        <parameter name="username" value="locked_out_user"/>
+        <parameter name="password" value="secret_sauce"/>
+        <classes>
+            <class name="testcases.ProductTest"/>
+        </classes>
+    </test>
+
+    <test name="Problem User">
+        <parameter name="username" value="problem_user"/>
+        <parameter name="password" value="secret_sauce"/>
+        <classes>
+            <class name="testcases.ProductTest"/>
+        </classes>
+    </test>
+
+    <test name="Perfomance Glitch User">
+        <parameter name="username" value="performance_glitch_user"/>
+        <parameter name="password" value="secret_sauce"/>
+        <classes>
+            <class name="testcases.ProductTest"/>
+        </classes>
+    </test>
+
+    <test name="Error User">
+        <parameter name="username" value="error_user"/>
+        <parameter name="password" value="secret_sauce"/>
+        <classes>
+            <class name="testcases.ProductTest"/>
+        </classes>
+    </test>
+
+    <test name="Visual User">
+        <parameter name="username" value="visual_user"/>
+        <parameter name="password" value="secret_sauce"/>
+        <classes>
+            <class name="testcases.ProductTest"/>
+        </classes>
+    </test>
+</suite>
+
+        <!--        standard_user-->
+        <!--        locked_out_user-->
+        <!--        problem_user-->
+        <!--        performance_glitch_user-->
+        <!--        error_user-->
+        <!--        visual_user-->

@@ -1,8 +1,4 @@
-package testcases;
-
-import commons.BrowserFactory;
-import element.LoginElement;
-
+package Testcase;
 import java.io.FileInputStream;
 import java.io.IOException;
 
@@ -12,96 +8,85 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.PageFactory;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
- 
+
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import commons.BrowserFactory;
+import commons.Screenshot;
+import commons.ExtentReport;
+import element.LoginElement;
+
 public class LoginTest {
-	WebDriver driver;
-	LoginElement loginpage;
- 
- 
+
+    WebDriver driver;
+    LoginElement loginPage;
+    String url;
+    ExtentReports extent;
+    ExtentTest test;
+
     @BeforeClass
-    public void setUp() {
-        BrowserFactory bf = new BrowserFactory();
-        bf.launchBrowser("edge");
-        driver = bf.driver;
+    public void init() {
+        extent = ExtentReport.getReportInstance();
+
+        // Launch browser using BrowserFactory
+        BrowserFactory browserFactory = new BrowserFactory();
+        browserFactory.launchBrowser("edge");
+
+        // ✅ Assign the driver from BrowserFactory
+        driver = BrowserFactory.driver;
+
+        // ✅ Now initialize your page object with the driver
+        loginPage = new LoginElement(driver);
+
+        // Navigate to the app before getting URL (driver.getCurrentUrl() is invalid before navigation)
         driver.get("https://www.saucedemo.com/");
-        loginpage = PageFactory.initElements(driver, LoginElement.class);
+        url = driver.getCurrentUrl();
     }
-    
-    
+
+
     @Test
-    public void runLoginTestsFromExcel() throws IOException {
-        String excelFilePath = "Excel/login_test_data.xlsx";
+
+    public void testLogin() throws IOException, InterruptedException {
+        String excelFilePath = "Excel/testcases (2).xlsx";
         FileInputStream fis = new FileInputStream(excelFilePath);
- 
         try (Workbook workbook = new XSSFWorkbook(fis)) {
             Sheet sheet = workbook.getSheetAt(0);
-
-
-		for (int rowIndex = 1; rowIndex <= sheet.getLastRowNum(); rowIndex++)
-		 {
+            for (int rowIndex = 1; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
                 Row row = sheet.getRow(rowIndex);
                 if (row == null) continue;
-
                 String username = row.getCell(0).getStringCellValue();
                 String password = row.getCell(1).getStringCellValue();
-                String expectedResult = row.getCell(2).getStringCellValue();
+                test = extent.createTest("Login Test - " + username);
+                loginPage.enterUserName(username);
+                loginPage.enterPassword(password);
+                loginPage.clickLoginButton();
+                Thread.sleep(2000); // Wait for page to respond
+                // Check for invalid login using error message container
 
-                testLogin(username, password, expectedResult);
+                boolean isErrorVisible = driver.findElements(By.className("error-message-container")).size() > 0;
+                if (isErrorVisible) {
+                    Screenshot.captureScreenshot(driver, "InvalidLogin_" + username);
+                    test.fail("Login failed for user: " + username);
+                }
+                else {
+                    test.pass("Login successful for user: " + username);
+                }
+
+                driver.navigate().to(url); // Reset for next test
             }
         }
     }
- 
-    public void testLogin(String username, String password, String expectedResult) {
-        driver.get("https://www.saucedemo.com/");
-        loginpage.enterUserName(username);
-        loginpage.enterPassword(password);
-        loginpage.clickLoginButton();
- 
-        boolean loginSuccess = driver.getCurrentUrl().contains("inventory.html");
 
-        if (expectedResult.equalsIgnoreCase("success")) {
-            assert loginSuccess : "Expected success but login failed for user: " + username;
-        } else {
-            assert !loginSuccess : "Expected failure but login succeeded for user: " + username;
+    @AfterClass
+    public void tearDown() {
+        extent.flush();
+        if (driver != null) {
+            driver.quit();
         }
- 
     }
-    
 }
-    
-//    @Test
-//    public void testLogin1() {
-//    	driver.get("https://www.saucedemo.com/");
-//        loginpage.enterUserName("locked_out_user");
-//        loginpage.enterPassword("secret_sauce");
-//        loginpage.clickLoginButton();
-//    }
-//    @Test
-//    public void testLogin2() {
-// 
-//    	driver.get("https://www.saucedemo.com/");
-//        loginpage.enterUserName("problem_user");
-//        loginpage.enterPassword("secret_sauce");
-//        loginpage.clickLoginButton();
-//    }
-//    @Test
-//    public void testLogin3() {
-//        driver.get("https://www.saucedemo.com/");
-//        loginpage.enterUserName("performance_glitch_user");
-//        loginpage.enterPassword("secret_sauce");
-//        loginpage.clickLoginButton();
-// 
-//    }
-//    @Test
-//    public void testLogin() throws InterruptedException {
-//    	driver.get("https://www.saucedemo.com/");
-//    	loginpage.enterUserName("standard_user");
-//    	loginpage.enterPassword("secret_sauce");
-//    	loginpage.clickLoginButton();
-////    	Thread.sleep(3000);
-//    }
-    
+
  

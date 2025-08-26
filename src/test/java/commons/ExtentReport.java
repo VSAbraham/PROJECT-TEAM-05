@@ -2,7 +2,7 @@ package commons;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
-public class report {
+public class ExtentReport{
     private static ExtentReports extent;
     public static ExtentReports getReportInstance() {
         if (extent == null) {
